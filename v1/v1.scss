@@ -1,0 +1,857 @@
+// @import "compass/css3";
+
+//==============================================
+//            VARIABLES
+//==============================================
+// $label-font-size: 17px;
+
+// $main-font: 'Alegreya Sans', sans-serif;
+// $main-font: 'Asap', sans-serif;
+// $main-font: 'Fira Sans', sans-serif;
+
+$base-input-field-height: 34px; // 34px is Bootstrap 3 height
+//         $base-font-size: 16px;
+
+//         $heading-1-size: 2.3em;
+//         $longest-select-option: 25em;
+
+//         $toggle-slider-height: 28px;
+
+
+$color-14: #e9e9e9; // ~95% from black to white
+$color-16: #898989;
+$color-17: #00bafa; // bright blue
+$main-font: 'Fira Sans', sans-serif;
+
+$default-legacy-ie: 7 8 9 !default;
+
+//============================
+// MIXINS
+//============================
+@mixin bkg-gray-to-clear() {
+    // 10
+    background-image: linear-gradient(to top, white, white);
+    background-size: 100% 5px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+@mixin bkg-clear-to-white() {
+    background-image: linear-gradient(to top, white, white);
+    // 20
+    background-size: 100% 5px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+//===========================
+// mixin
+//===========================
+@mixin adaptive_placeholder( $height, $width, $radius, $margin: 1em, $border: 1px) {
+
+    
+    // #1
+    $borders: ($border * 2); // <- To avoid repeating below
+    box-sizing: border-box; // <- Important for accurate sizing
+
+    width: $width; // <- Could be almost anything
+
+    height: calc(#{$height} + #{$borders});
+    // .ie#11 & { height: 2em; }
+    // margin: 0 0 $margin;
+    padding-left: $margin / 1.5; // #2
+    border: $border solid $color-14;
+    // border-radius: $radius;
+    background: #fff;
+    // resize: none;    // <- For textareas
+    outline: none; // <- Because ugly
+
+    
+
+    // Following block controls all the color change
+    //
+    // &[required] {
+    & {
+
+
+
+        //-------------------------------------------------------
+        // when cursor is in the field, highlight the label and border with blue
+        &:focus {
+            border-color: $color-17; // bright blue border
+            + label {
+                &[placeholder] {
+                    &:before {
+                        color: $color-17; // bright blue font
+                        // @include clear-to-white();
+                        @include bkg-gray-to-clear();
+                    }
+                }
+            }
+        }
+
+
+        //-------------------------------------------------------
+        // [Following block selects label directly adjacent to input], Lift the label    ...
+        &:focus // ... when the cursor is inside the field       
+        , &:focus:valid 
+        , &:valid // ... when the input is filled out by user,
+        , &[readonly] // ... when the input is filled out programmatically
+        // , &:required
+                    //,
+        // &:read-only.xxx, // when the field is populated programmatically and "readonly" attribute is attached
+        //             //,
+        // &:read-only, //???
+        //             //,
+        // &:not(.zz),
+        //             //,
+        // , &:valid:read-only
+        // , &:invalid:read-only 
+        {
+
+            + label {
+
+                &[placeholder] {
+
+                    &:before {
+                        // transition-duration: .2s;
+
+                        // -webkit-transform: translate(0, ($margin * -0.6)) scale(.9, .9);
+                        // -moz-transform:    translate(0, ($margin * -0.6)) scale(.9, .9);
+                        // -o-transform:      translate(0, ($margin * -0.6)) scale(.9, .9);
+                        // -ms-transform:     translate(0, ($margin * -0.6)) scale(.9, .9);
+
+                        transform:         translate(0, ($margin * -0.6)) scale(.9, .9); // move placeholder out of the way // OK
+                        // transform:         translate(0, -10px );  // move placeholder out of the way
+
+
+
+                        //-------------------------------
+                        // transform: translate(calc(30% - 10px), calc(5% + 10px)) scale(.75, .75) rotate(45deg);
+                        // transform-origin: 60% 100%;
+                        //-------------------------------
+
+                        // -ms-transform:     translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        // -webkit-transform: translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        // -moz-transform:    translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        // behavior: url(-ms-transform.htc);
+                        // // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        // // transform:rotate(45deg); 
+                        // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                        //-------------------------------
+
+
+                        // @include bkg-gray-to-clear(); // OK
+
+                        // color: green; // OK
+
+                        
+                    }
+                }
+            }
+        }
+        //-------------------------------------------------------
+
+        // Following block injects string from label's 'alt' attr. It comes before the other 'content' property so I can override it. Uses "invalid" pseudo-selector to know when to do that.
+        &:invalid {
+            + label {
+                &[placeholder] {
+                    &[alt] {
+                        &:before {
+                            content: attr(alt); // Content property 1 of 2
+                            @include bkg-clear-to-white();
+                            // color: red;
+
+                            .ie#11 & {
+                                // transform: translate(0, 1) scale(.9, .9); // move placeholder out of the way
+                                color: red;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        + label {
+            &[placeholder] {
+                display: block;
+                pointer-events: none; // Allows clicking thru label
+                line-height: $margin * 1.25;
+                // Following pulls label into position
+                margin-top: calc(-#{$height} - #{$borders});
+                // Following offsets that above
+                margin-bottom: calc((#{$height} - #{$margin}) + #{$borders});
+
+                //
+
+                //
+                // Following ':before' is needed to switch between
+                // different strings.
+                // This is the style for the string when the field is inactive before input and after input.
+                &:before {
+                    content: attr(placeholder); // Content property 2 of 2
+                    display: inline-block;
+                    // margin: 0 calc(#{$margin} + #{$borders});
+                    margin-left: 7px;
+
+                    padding: 0 2px;
+                    color: $color-16;
+                    white-space: nowrap;
+                    transition: .3s ease-in-out;
+                    // //
+                    // // Following lines lets me use solid color as bkg img.
+                    // // This lets me size bkg to something more sublte
+                    // //
+                    // background-image: linear-gradient(to bottom, $color-15, $color-15); // the background of the label.
+                    // // background-image: linear-gradient(to bottom, rgba(246, 246, 246, 1) 0%,rgba(246, 246, 246, 0) 100%);
+
+                    // background-size: 100% 5px;
+                    // background-repeat: no-repeat;
+                    // background-position: center;
+
+                    @include bkg-gray-to-clear();
+                }
+            }
+        }
+    }
+}
+
+/////////////////////////////////
+
+@mixin adaptive_placeholder_slct($height, $width, $radius, $margin: 1em, $border: 1px) {
+    // #1
+    $borders: ($border * 2); // <- To avoid repeating below
+    box-sizing: border-box; // <- Important for accurate sizing
+
+    width: $width; // <- Could be almost anything
+
+    height: calc(#{$height} + #{$borders});
+    // margin: 0 0 $margin;
+    padding-left: $margin / 1.5; // #2
+    border: $border solid $color-14;
+    // border-radius: $radius;
+    background: #fff;
+    // resize: none;    // <- For textareas
+    outline: none; // <- Because ugly
+
+    // Following block controls all the color change
+    //
+    // &[required] {
+        & {
+            //--------------------------------------------------------------------
+            // when cursor is in the field, highlight the label and border with blue
+            &:focus {
+                border-color: $color-17; // bright blue border
+                + label {
+                    &[placeholder] {
+                        &:before {
+                            color: $color-17; // bright blue font
+                            // @include clear-to-white();
+                            @include bkg-gray-to-clear();
+                        }
+                    }
+                }
+            }
+
+            //------------------------------------------------------------
+            //
+            // [Following block selects label directly adjacent to input]
+            //    Lift the label when ...
+            // &:focus // ... when the cursor is inside the field
+            &:valid // ... when the input is filled out by user
+                        //,
+            // &:read-only // ... the input is filled out programmatically
+            //             //,
+            // &:read-only.xxx // when the field is populated programmatically and "readonly" attribute is attached
+            //             //,
+            // &:read-only //???
+            //             //,
+            // &:not(.zz)
+            //             //,
+            // &:valid:read-only
+            //         //,
+            // &:invalid:read-only,
+            // , &:disabled:not([value])
+            
+            , &:disabled:not(:empty)
+            // , &:disabled
+
+
+            // , &:disabled 
+            {
+                + label {
+                    &[placeholder] {
+                        &:before {
+                            transition-duration: .2s;
+                            transform: translate(0,    ($margin * -0.6))
+                                scale(.9, .9); // move placeholder out of the way
+                            @include bkg-gray-to-clear();
+                            // color: red;
+                        }
+                    }
+                }
+            }
+
+            //
+            // Following block injects string from label's 'alt' attr.
+            // It comes before the other 'content' property so I can
+            // override it. Uses "invalid" pseudo-selector to know
+            // when to do that.
+            //
+            &:invalid {
+                + label {
+                    &[placeholder] {
+                        &[alt] {
+                            &:before {
+                                content: attr(alt); // Content property 1 of 2
+                                @include bkg-clear-to-white();
+                                // color: red;
+                            }
+                        }
+                    }
+                }
+            }
+            + label {
+                &[placeholder] {
+                    display: block;
+                    pointer-events: none; // Allows clicking thru label
+                    line-height: $margin * 1.25;
+                    // Following pulls label into position
+                    margin-top: calc(-#{$height} - #{$borders});
+                    // Following offsets that above
+                    margin-bottom: calc((#{$height} - #{$margin}) + #{$borders});
+
+                    //
+
+                    //
+                    // Following ':before' is needed to switch between
+                    // different strings.
+                    // This is the style for the string when the field is inactive before input and after input.
+                    &:before {
+                        content: attr(placeholder); // Content property 2 of 2
+                        display: inline-block;
+                        // margin: 0 calc(#{$margin} + #{$borders});
+                        margin-left: 7px;
+
+                        padding: 0 2px;
+                        color: $color-16;
+                        white-space: nowrap;
+                        transition: .3s ease-in-out;
+                        // //
+                        // // Following lines lets me use solid color as bkg img.
+                        // // This lets me size bkg to something more sublte
+                        // //
+                        // background-image: linear-gradient(to bottom, $color-15, $color-15); // the background of the label.
+                        // // background-image: linear-gradient(to bottom, rgba(246, 246, 246, 1) 0%,rgba(246, 246, 246, 0) 100%);
+
+                        // background-size: 100% 5px;
+                        // background-repeat: no-repeat;
+                        // background-position: center;
+
+                        @include bkg-gray-to-clear();
+                    }
+                }
+            }
+        }
+    // }
+}
+
+/////
+
+.adaptive-placeholder {
+    margin-top: .6em;
+
+    input {
+        // width: auto !important;
+        $height: $base-input-field-height;
+
+        // $width: auto; // before starting mobile first media queries
+        $width: 100%; // AFTER starting mobile first media queries
+
+        @include adaptive_placeholder($height, $width, ($height / 7));
+    }
+}
+
+.adaptive-placeholder-select {
+    margin-top: .6em;
+
+    select {
+        // width: auto !important;
+        $height: $base-input-field-height;
+
+        // $width: auto; // before starting mobile first media queries
+        $width: 100%; // AFTER starting mobile first media queries
+
+        @include adaptive_placeholder_slct($height, $width, ($height / 7));
+    }
+}
+
+.container {
+    // margin: 2em 20em 3em;
+    margin: 2em;
+    font-family: Arial, sans-serif;
+}
+
+//===============================
+// INPUT, SELECT
+input, select {
+    // &:valid {
+    //     border-bottom: 5px solid blue;
+    //     &:read-only {
+    //         border-right: 30px solid purple;
+    //         // &[data-x="x"] {
+    //         //     border: 5px dotted red;
+    //         // }
+    //     }
+    // }
+
+    &:focus {
+        // border-left: 5px solid red;
+    }
+
+    //     &:required {
+    //         border-bottom: 5px    solid green;
+
+    //         &:readonly {
+    //                 border-left: 2px    solid green;
+    //         }
+
+    //     }
+
+    &:invalid {
+        // border-left: 5px solid orange;
+        &:read-only {
+            // border-right: 30px solid yellow;
+        }
+        &:not(:read-only) {
+            // border-bottom: 5px solid magenta;
+            
+        }
+    }
+
+    &:valid {
+        // border-bottom: 7px solid green;
+        &:read-only {
+            // border-right: 30px solid orange;
+        }
+        &:not(:read-only) {
+            // border-right: 30px solid magenta;
+            
+        }
+    }
+}
+// INPUT, SELECT
+
+#loanTypeRow {
+    width: 20em;
+}
+#wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+// .aaa {
+//     width: 25%;
+//     border: 1px solid black;
+//     input, select {
+//         width: 100% !important;
+//     }
+// }
+
+.expl {
+    color: #5DADE2;
+    vertical-align: super;
+}
+
+#banana {
+    &:focus {
+        // $margin: 1em;
+        // transform: translate(0, ($margin*-0.6))scale(.9, .9);
+        // $amount: 10deg;
+        // transform:rotate($amount);
+    }
+}
+
+#banana {
+    &:before {
+        top: 10em;
+            content: "focused";
+    }
+//     &:focus {
+//         border-right: 30px solid red;
+//         &:before {
+//             content: "focused";
+//         }
+//     }
+//     &:invalid {
+//         border-left: 7px solid red;
+//         &:read-only {
+//             border-right: 30px solid orange;
+//         }
+//         &:not(:read-only) {
+//             border-right: 30px solid magenta;
+//             #aa:after {
+//                 content: "aaa";
+//             }
+//         }
+//     }
+
+//     &:valid {
+//         border-bottom: 7px solid green;
+//         &:read-only {
+//             border-right: 30px solid orange;
+//         }
+//         &:not(:read-only) {
+//             border-right: 30px solid magenta;
+//         }
+//     }
+}
+
+.explanation {
+    font-family: Consolas, sans;
+}
+
+#display {
+    position: absolute;
+    right: 5em;
+    background-color: lightyellow;
+    padding: 1em 2em;
+
+
+}
+
+#image {
+    position: absolute;
+    left: 5em;
+    bottom: 1em;
+    width: 15em;
+
+
+}
+
+#explanation {
+    &:after {
+        content: "4"
+    }
+}
+
+// 
+.cross-browser {
+    background-color: wheat;
+}
+
+
+// @mixin ie($ver) {
+//     .ie#{$ver} & {
+//         @content;
+//     }
+// }
+
+
+@mixin ie($ver) {
+    @each $v in $ver { 
+        @if type-of($v) != number {
+            @warn 'This mixin only accepts numbers.';
+        }      
+        @else if $v != 7 and $v != 8 and $v != 9 {
+            @warn 'Can only target IE versions 7, 8, and 9.';
+        }
+        @else {
+            .ie#{$v} & {
+                @content;
+            }
+        }
+    }
+}
+
+
+
+
+#john    {  
+    background-color: #ccc;
+    display: inline-block;
+    width: 10em;
+    transform: translate( 5px, 15px); // works: Chrome, IE11
+
+    @include ie(7) {
+        background-color: yellow;
+        color: red;
+        display: inline-block;
+        transform: translate( 5px, 15px); // works: Chrome, IE11
+        width: 10em;
+    }
+
+    
+
+    
+    //rotate(40deg);
+    // transform:rotate(45deg); 
+    // -webkit-transform:rotate(45deg); 
+    // behavior:url(-ms-transform.htc);  
+    // -moz-transform:rotate(45deg);  
+
+    // -o-transform:rotate(45deg);  
+    // -ms-transform:rotate(45deg);  
+   
+
+}  
+
+
+
+#mary    {  
+    background-color: #ccc;
+    display: inline-block;
+
+    width: 10em;
+    // transform:rotate(10deg);
+    transform: translate( 10px, -15px)
+    // transform: translate(100px, 10px) scale(.75, .75) rotate(40deg);
+
+    // behavior:url(-ms-transform.htc);  
+    // -moz-transform:rotate(10deg);  
+    // -webkit-transform:rotate(10deg);  
+    // -o-transform:rotate(10deg);  
+    // -ms-transform:rotate(10deg);  
+
+}  
+
+#john:hover  {  
+    // transform: rotate( -45deg ); 
+    // transform: scale(2, 2);
+    // transform: translate( 100px , 15px);
+
+    transform: translate( 100px , 15px) scale( 2,2);
+}
+
+#mary:hover  {  
+    // transform: rotate( 45deg );  // works in IE11
+    // transform: translate( 100px , -15px);
+    // transform: scale(2, 2);
+    transform: translate( 100px , -15px) scale( 2,2);
+  // transform: rotate( 45deg );  
+  // -webkit-transform:rotate(45deg);  
+  // -o-transform:rotate(45deg);  
+  // -ms-transform:rotate(45deg);  
+  
+  // transform: translate( 0px 100px);
+}
+// ================================
+// 10
+    // Following lines lets me use solid color as bkg img.
+    // This lets me size bkg to something more sublte
+    //
+    // background-image: linear-gradient(to bottom, $color-15, $color-15); // the background of the label.
+    // background-image: linear-gradient(to bottom, rgba(246, 246, 246, 1) 0%, rgba(246, 246, 246, 0) 100%);
+
+//=================================
+// 20
+    // background-image: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,1) 100%);
+    // background-image: linear-gradient(to bottom, $color-15, $color-15); // the background of the label.
+
+// @mixin bie($ver) {
+//     .ie#{$ver} {
+//         @content;
+//     }
+// }
+
+// @include bie(11) {
+//         body {
+//             background-color: pink;
+//         }
+//     }
+
+
+// @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+//      background-color: pink;
+//      color: red;
+// }
+
+
+@mixin for-browser($browser) {
+  .#{$browser} & {
+    @content
+  }
+}
+
+#explanation {
+      color: blue; 
+  
+  @include for-browser(ie11) {
+    color: red; 
+  }
+}
+
+
+@mixin testing_label( $height, $width, $radius, $margin: 1em, $border: 1px) {
+
+    
+    // #1
+    $borders: ($border * 2); // <- To avoid repeating below
+    box-sizing: border-box; // <- Important for accurate sizing
+
+    width: $width; // <- Could be almost anything
+
+    height: calc(#{$height} + #{$borders});
+    // .ie#11 & { height: 2em; }
+    // margin: 0 0 $margin;
+    padding-left: $margin / 1.5; // #2
+    border: $border solid $color-14;
+    // border-radius: $radius;
+    background: #fff;
+    // resize: none;    // <- For textareas
+    outline: none; // <- Because ugly
+
+
+    &[required] {
+        & {
+
+            &:focus {
+                border-color: $color-17; // bright blue border
+                + label {
+                    &[placeholder] {
+                        &:before {
+                            color: $color-17; // bright blue font
+                            // @include clear-to-white();
+                            @include bkg-gray-to-clear();
+                        }
+                    }
+                }
+            }
+
+
+            // &:focus, &:valid, &:read-only {
+            &:focus, // as the cursor enters the empty field, the label must move out
+            &:focus:valid, // as you type, the label must stay out
+            &[readonly],
+            &:valid // after done typing, cursor leaves the field, the label must stay out
+            // &:valid:read-only
+            // &:focus:read-only 
+            {
+                
+            // &:focus,          &:read-only {
+
+                + label {
+
+                    &[placeholder] {
+
+                        &:before {
+                            // transition-duration: .2s;
+
+                            // -webkit-transform: translate(0, ($margin * -0.6)) scale(.9, .9);
+                            // -moz-transform:    translate(0, ($margin * -0.6)) scale(.9, .9);
+                            // -o-transform:      translate(0, ($margin * -0.6)) scale(.9, .9);
+                            // -ms-transform:     translate(0, ($margin * -0.6)) scale(.9, .9);
+
+                            transform:         translate(0, ($margin * -0.6)) scale(.9, .9); // move placeholder out of the way // OK
+                            // transform:         translate(0, -10px );  // move placeholder out of the way
+
+
+
+                            //-------------------------------
+                            // transform: translate(calc(30% - 10px), calc(5% + 10px)) scale(.75, .75) rotate(45deg);
+                            // transform-origin: 60% 100%;
+                            //-------------------------------
+
+                            // -ms-transform:     translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            // -webkit-transform: translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            // -moz-transform:    translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            // behavior: url(-ms-transform.htc);
+                            // // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            // // transform:rotate(45deg); 
+                            // transform:         translate(100px, 10px) scale(.75, .75) rotate(40deg);
+                            //-------------------------------
+
+
+                            @include bkg-gray-to-clear(); // OK
+
+                            // color: green; // OK
+
+                            
+                        }
+                    }
+                }
+            }
+
+            // Following block injects string from label's 'alt' attr. It comes before the other 'content' property so I can override it. Uses "invalid" pseudo-selector to know when to do that.
+            &:invalid {
+                + label {
+                    &[placeholder] {
+                        &[alt] {
+                            &:before {
+                                content: attr(alt); // Content property 1 of 2
+                                @include bkg-clear-to-white();
+                                // color: red;
+
+                                .ie#11 & {
+                                    // transform: translate(0, 1) scale(.9, .9); // move placeholder out of the way
+                                    color: red;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            + label {
+                &[placeholder] {
+                    display: block;
+                    pointer-events: none; // Allows clicking thru label
+                    line-height: $margin * 1.25;
+                    // Following pulls label into position
+                    margin-top: calc(-#{$height} - #{$borders});
+                    // Following offsets that above
+                    margin-bottom: calc((#{$height} - #{$margin}) + #{$borders});
+
+                    //
+
+                    //
+                    // Following ':before' is needed to switch between
+                    // different strings.
+                    // This is the style for the string when the field is inactive before input and after input.
+                    &:before {
+                        content: attr(placeholder); // Content property 2 of 2
+                        display: inline-block;
+                        // margin: 0 calc(#{$margin} + #{$borders});
+                        margin-left: 7px;
+
+                        padding: 0 2px;
+                        color: $color-16;
+                        white-space: nowrap;
+                        transition: .3s ease-in-out;
+                        // //
+                        // // Following lines lets me use solid color as bkg img.
+                        // // This lets me size bkg to something more sublte
+                        // //
+                        // background-image: linear-gradient(to bottom, $color-15, $color-15); // the background of the label.
+                        // // background-image: linear-gradient(to bottom, rgba(246, 246, 246, 1) 0%,rgba(246, 246, 246, 0) 100%);
+
+                        // background-size: 100% 5px;
+                        // background-repeat: no-repeat;
+                        // background-position: center;
+
+                        @include bkg-gray-to-clear();
+                    }
+                }
+            }
+        }
+    }
+}
+
+.testing-label {
+    margin-top: .6em;
+
+    input {
+        // width: auto !important;
+        $height: $base-input-field-height;
+
+        // $width: auto; // before starting mobile first media queries
+        $width: 100%; // AFTER starting mobile first media queries
+
+        @include testing_label($height, $width, ($height / 7));
+    }
+}
+
+// select:disabled:empty {
+//     border: red solid 1px !important;
+// }

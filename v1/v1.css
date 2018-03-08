@@ -1,0 +1,224 @@
+.adaptive-placeholder {
+  margin-top: .6em; }
+  .adaptive-placeholder input {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(34px + 2px);
+    padding-left: 0.66667em;
+    border: 1px solid #e9e9e9;
+    background: #fff;
+    outline: none; }
+    .adaptive-placeholder input:focus {
+      border-color: #00bafa; }
+      .adaptive-placeholder input:focus + label[placeholder]:before {
+        color: #00bafa;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+    .adaptive-placeholder input:focus
+    + label[placeholder]:before, .adaptive-placeholder input:focus:valid
+    + label[placeholder]:before, .adaptive-placeholder input:valid
+    + label[placeholder]:before, .adaptive-placeholder input[readonly] + label[placeholder]:before {
+      transform: translate(0, -0.6em) scale(0.9, 0.9); }
+    .adaptive-placeholder input:invalid + label[placeholder][alt]:before {
+      content: attr(alt);
+      background-image: linear-gradient(to top, white, white);
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center; }
+      .ie#11 .adaptive-placeholder input:invalid + label[placeholder][alt]:before {
+        color: red; }
+    .adaptive-placeholder input + label[placeholder] {
+      display: block;
+      pointer-events: none;
+      line-height: 1.25em;
+      margin-top: calc(-34px - 2px);
+      margin-bottom: calc((34px - 1em) + 2px); }
+      .adaptive-placeholder input + label[placeholder]:before {
+        content: attr(placeholder);
+        display: inline-block;
+        margin-left: 7px;
+        padding: 0 2px;
+        color: #898989;
+        white-space: nowrap;
+        transition: .3s ease-in-out;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+
+.adaptive-placeholder-select {
+  margin-top: .6em; }
+  .adaptive-placeholder-select select {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(34px + 2px);
+    padding-left: 0.66667em;
+    border: 1px solid #e9e9e9;
+    background: #fff;
+    outline: none; }
+    .adaptive-placeholder-select select:focus {
+      border-color: #00bafa; }
+      .adaptive-placeholder-select select:focus + label[placeholder]:before {
+        color: #00bafa;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+    .adaptive-placeholder-select select:valid
+    + label[placeholder]:before, .adaptive-placeholder-select select:disabled:not(:empty)
+    + label[placeholder]:before {
+      transition-duration: .2s;
+      transform: translate(0, -0.6em) scale(0.9, 0.9);
+      background-image: linear-gradient(to top, white, white);
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center; }
+    .adaptive-placeholder-select select:invalid + label[placeholder][alt]:before {
+      content: attr(alt);
+      background-image: linear-gradient(to top, white, white);
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center; }
+    .adaptive-placeholder-select select + label[placeholder] {
+      display: block;
+      pointer-events: none;
+      line-height: 1.25em;
+      margin-top: calc(-34px - 2px);
+      margin-bottom: calc((34px - 1em) + 2px); }
+      .adaptive-placeholder-select select + label[placeholder]:before {
+        content: attr(placeholder);
+        display: inline-block;
+        margin-left: 7px;
+        padding: 0 2px;
+        color: #898989;
+        white-space: nowrap;
+        transition: .3s ease-in-out;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+
+.container {
+  margin: 2em;
+  font-family: Arial, sans-serif; }
+
+#loanTypeRow {
+  width: 20em; }
+
+#wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+
+.expl {
+  color: #5DADE2;
+  vertical-align: super; }
+
+#banana:before {
+  top: 10em;
+  content: "focused"; }
+
+.explanation {
+  font-family: Consolas, sans; }
+
+#display {
+  position: absolute;
+  right: 5em;
+  background-color: lightyellow;
+  padding: 1em 2em; }
+
+#image {
+  position: absolute;
+  left: 5em;
+  bottom: 1em;
+  width: 15em; }
+
+#explanation:after {
+  content: "4"; }
+
+.cross-browser {
+  background-color: wheat; }
+
+#john {
+  background-color: #ccc;
+  display: inline-block;
+  width: 10em;
+  transform: translate(5px, 15px); }
+  .ie7 #john {
+    background-color: yellow;
+    color: red;
+    display: inline-block;
+    transform: translate(5px, 15px);
+    width: 10em; }
+
+#mary {
+  background-color: #ccc;
+  display: inline-block;
+  width: 10em;
+  transform: translate(10px, -15px); }
+
+#john:hover {
+  transform: translate(100px, 15px) scale(2, 2); }
+
+#mary:hover {
+  transform: translate(100px, -15px) scale(2, 2); }
+
+#explanation {
+  color: blue; }
+  .ie11 #explanation {
+    color: red; }
+
+.testing-label {
+  margin-top: .6em; }
+  .testing-label input {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(34px + 2px);
+    padding-left: 0.66667em;
+    border: 1px solid #e9e9e9;
+    background: #fff;
+    outline: none; }
+    .testing-label input[required]:focus {
+      border-color: #00bafa; }
+      .testing-label input[required]:focus + label[placeholder]:before {
+        color: #00bafa;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+    .testing-label input[required]:focus + label[placeholder]:before, .testing-label input[required]:focus:valid + label[placeholder]:before, .testing-label input[required][readonly] + label[placeholder]:before, .testing-label input[required]:valid + label[placeholder]:before {
+      transform: translate(0, -0.6em) scale(0.9, 0.9);
+      background-image: linear-gradient(to top, white, white);
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center; }
+    .testing-label input[required]:invalid + label[placeholder][alt]:before {
+      content: attr(alt);
+      background-image: linear-gradient(to top, white, white);
+      background-size: 100% 5px;
+      background-repeat: no-repeat;
+      background-position: center; }
+      .ie#11 .testing-label input[required]:invalid + label[placeholder][alt]:before {
+        color: red; }
+    .testing-label input[required] + label[placeholder] {
+      display: block;
+      pointer-events: none;
+      line-height: 1.25em;
+      margin-top: calc(-34px - 2px);
+      margin-bottom: calc((34px - 1em) + 2px); }
+      .testing-label input[required] + label[placeholder]:before {
+        content: attr(placeholder);
+        display: inline-block;
+        margin-left: 7px;
+        padding: 0 2px;
+        color: #898989;
+        white-space: nowrap;
+        transition: .3s ease-in-out;
+        background-image: linear-gradient(to top, white, white);
+        background-size: 100% 5px;
+        background-repeat: no-repeat;
+        background-position: center; }
+
+/*# sourceMappingURL=v1.css.map */

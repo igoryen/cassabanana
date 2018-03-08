@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title>Cassabanana 1</title>
+        <link rel="stylesheet" type="text/css" href="v1.css">
+        <script
+          src="https://code.jquery.com/jquery-3.2.1.min.js"
+          integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+          crossorigin="anonymous"></script>
+
+          <script type="text/javascript" src="v1.js"></script>
+          <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    </head>
+    <body>
+        <!-- a: <span id="aa"></span><br> b: <span id="bb"></span><br> c: <span id="cc"></span> -->
+        <ul id="display"></ul>
+        <img id="image" src="../images/cassabanana.jpg">
+
+        <div id="wrapper">
+
+            
+
+            <div class="panel">
+
+
+                <div class="container adaptive-placeholder-select" id="loanTypeRow">
+                    <span class="expl">1</span>
+                    <select id="ddd_select" disabled required ></select>
+                    <label for="ddd_select" alt="Select loan type" placeholder="Your selected loan type"></label>
+                </div>
+
+
+                <div class="container adaptive-placeholder-select">
+                    <span class="expl">2</span>
+                    <select id="bob" required disabled="disabled">
+                        <option class="xxx" value="a">Character a</option>
+                        <option class="xxx" value="b">Character b</option>
+                        <option class="xxx" value="c">Character c</option>
+                        <option class="xxx" value="d">Character d</option>
+                        <option class="xxx" value="e">Character e</option>
+                    </select>
+                    <label for="bob" alt="Choose a character" placeholder="You have selected"></label>
+                </div>
+
+
+                <div class="container adaptive-placeholder-select" id="loanTypeRow">
+                    <span class="expl">3</span>
+                    <select id="loan" required>
+                        <option selected hidden readonly value=""></option>
+                        <option id="loanPurchase-input" value="Purchase Price">Purchase</option>
+                        <option id="loanRefinance-input" value="Refinance Amount">Refinance</option>
+                        <option id="loanRenewal_input" value="Renewals">Renewal</option>
+                    </select>
+                    <label for="loan" alt="Choose loan type" placeholder="Loan type"></label>
+                </div>
+
+
+                <div class="container adaptive-placeholder-select">
+                    <span class="expl">4</span>
+                    <select id="characters" required>
+                        <option selected hidden readonly class="empty" value=""></option>
+                        <option class="xxx" value="a">aaa</option>
+                        <option class="xxx" value="b">bbb</option>
+                        <option class="xxx" value="c">ccc</option>
+                        <option class="xxx" value="d">ddd</option>
+                        <option class="xxx" value="e">eee</option>
+                    </select>
+                    <label for="apple" alt="Choose a character" placeholder="You have selected"></label>
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+                <div class="container adaptive-placeholder">
+                    <span class="expl">5</span>
+                    <input id="b" class="nnn" name="app_unit_num" type="text" value="" required/>
+                    <label alt="What's your name?" placeholder="Hello"></label>
+                </div>
+
+
+                <div class="container adaptive-placeholder">
+                    <span class="expl">6</span>
+                    <input id="c" name="" type="email" class="fff"  readonly value="Something" required/>
+                    <label for="c" alt="What's your name?" placeholder="Hello"></label>
+                </div>
+
+
+                <div>
+                    <div id="pear">Static pear</div>
+                    <input id="banana">Transformable banana</input>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="container testing-label">
+                    <span class="expl">7</span>
+                    <input id="james" class="nnn" name="app_unit_num" type="text" value=""  required/>
+                    <label alt="James?" placeholder="James"></label>
+                </div>
+
+                <div class="container testing-label">
+                    <span class="expl">8</span>
+                    <input id="jason" class="nnn" name="app_unit_num" type="text" readonly value="Jason"  required/>
+                    <label alt="Jason?" placeholder="Jason"></label>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div id="explanation">
+            <ul>
+                <li>1) .adaptive-placeholder-select :: Disabled, empty value</li>
+                <li>2) .adaptive-placeholder-select :: Disabled DDL, non-empty value</li>
+                <li>3) .adaptive-placeholder-select ::</li>
+                <li>4) .adaptive-placeholder-select :: Ordinary DDL</li>
+                <li>5) .adaptive-placeholder :: </li>
+                <li>6) .adaptive-placeholder :: </li>
+            </ul>
+        </div>
+
+        <div class="cross-browser">
+            <div id="john" >John</div>  
+            <div id="mary">Mary</div>  
+        </div>
+
+    </body>
+</html>
